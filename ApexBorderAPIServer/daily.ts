@@ -3,7 +3,6 @@ import { JSDOM } from 'jsdom';
 import { RPLog } from './entities/rpLog';
 import * as moment from 'moment';
 import DBManager from './db/dbManager';
-import { getConnection } from 'typeorm';
 require('array-foreach-async');
 
 const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), Number(process.env.SEASON));
@@ -46,12 +45,11 @@ const main = async () => {
             throw new Error(`rpLog.${plat}.length not equals ${border}.`);
         }
     }
-
     console.log('DB Update start.');
-    await DBManager.createConnection().catch(err => console.log(err));
-    const connection = getConnection();
+    await DBManager.createConnection();
+    const connection = await DBManager.getConnectedConnection();
     const repository = connection.getRepository(RPLog);
-    await repository.save(rpLog).catch(err => console.log(err));
+    await repository.save(rpLog);
     await connection.close();
     console.log('DB was Updated.');
     console.log('---Daily process end---');

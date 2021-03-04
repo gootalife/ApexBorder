@@ -1,19 +1,17 @@
 import * as express from 'express';
 import { RPLog } from '../entities/rpLog';
-import { getConnection, Between } from 'typeorm';
+import { Between } from 'typeorm';
 import { isString } from 'util';
+import DBManager from '../db/dbManager';
 const router = express.Router();
 
-router.get('/rpLogs', async (req: express.Request, res: express.Response) => {
+router.get('/rplogs', async (req: express.Request, res: express.Response) => {
     const beginning = req.query.beginning;
     const ending = req.query.ending;
     const season = Number(process.env.SEASON);
-    const connection = getConnection();
-    if (!connection.isConnected) {
-        await connection.connect().catch(err => console.log(err));
-    }
+    const connection = await DBManager.getConnectedConnection();
     const repository = connection.getRepository(RPLog);
-    let rpLogs: void | RPLog[];
+    let rpLogs: RPLog[];
     // 期間の指定があるかどうか
     if (isString(beginning) && isString(ending)) {
         // 期間内の記録を取得
@@ -25,17 +23,22 @@ router.get('/rpLogs', async (req: express.Request, res: express.Response) => {
             order: {
                 date: 'ASC'
             }
-        }).catch(err => console.log(err));
+        });
     } else {
         // シーズン内の記録を取得
         rpLogs = await repository.find({
             where: {
                 season: season
             }
-        }).catch(err => console.log(err));
+        });
     }
-    await connection.close().catch(err => console.log(err));
+    await connection.close();
     res.json(rpLogs);
+});
+
+router.get('/currentborder', async (req: express.Request, res: express.Response) => {
+
+    res.json();
 });
 
 export default router;
