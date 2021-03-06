@@ -34,10 +34,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="public\stylesheets\main.css" />
-    <Content Include="views\error.pug" />
-    <Content Include="views\index.pug" />
-    <Content Include="views\layout.pug" />
     <None Include="app.ts" />
     <None Include="routes\index.ts" />
     <Content Include="db\makeRPLog.sql" />
@@ -49,12 +45,13 @@
   <ItemGroup>
     <Folder Include="db\" />
     <Folder Include="entities\" />
-    <Folder Include="public\" />
-    <Folder Include="public\stylesheets\" />
-    <Folder Include="views\" />
+    <Folder Include="logics\" />
     <Folder Include="routes\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="logics\apiFunc.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="daily.ts" />
     <TypeScriptCompile Include="db\dbManager.ts" />
     <TypeScriptCompile Include="dbTest.ts" />

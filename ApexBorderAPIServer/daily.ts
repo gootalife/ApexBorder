@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import DBManager from './db/dbManager';
 require('array-foreach-async');
 
-const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), Number(process.env.SEASON));
+const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), process.env.SEASON);
 const border = Number(process.env.BORDER);
 const playersPerPage = Number(process.env.PLAYERS_PER_PAGE);
 const platForms: { [key: string]: string } = {
@@ -42,11 +42,10 @@ const main = async () => {
             return [];
         });
         if (rpLog[plat].length !== border) {
-            throw new Error(`rpLog.${plat}.length not equals ${border}.`);
+            throw new Error(`rpLog.${plat}.length = ${rpLog[plat].length} is not equals ${border}.`);
         }
     }
     console.log('DB Update start.');
-    await DBManager.createConnection();
     const connection = await DBManager.getConnectedConnection();
     const repository = connection.getRepository(RPLog);
     await repository.save(rpLog);

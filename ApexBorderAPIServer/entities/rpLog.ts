@@ -8,8 +8,8 @@ export class RPLog {
     @Column('text', { name: 'date' })
     date: string;
 
-    @Column('int', {name: 'season'})
-    season: number;
+    @Column('text', { name: 'season' })
+    season: string;
 
     @Column('int', { name: 'origin', array: true })
     origin: number[];
@@ -20,7 +20,7 @@ export class RPLog {
     @Column('int', { name: 'xbox', array: true })
     xbox: number[];
 
-    constructor(date: string, season: number) {
+    constructor(date: string, season: string) {
         this.date = date;
         this.season = season;
         this.origin = [];

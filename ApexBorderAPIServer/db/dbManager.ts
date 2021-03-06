@@ -4,7 +4,7 @@ import { RPLog } from "../entities/rpLog";
 export default class DBManager {
     private static connection: Connection;
 
-    public static async createConnection(): Promise<void> {
+    private static async createConnection(): Promise<void> {
         this.connection = await createConnection({
             type: 'postgres',
             host: process.env.DB_HOST,
@@ -17,7 +17,7 @@ export default class DBManager {
             logging: false,
         }).catch(err => { throw err });
     }
-
+    
     public static async getConnectedConnection(): Promise<Connection> {
         if (this.connection === undefined) {
             await this.createConnection().catch(err => { throw err });
