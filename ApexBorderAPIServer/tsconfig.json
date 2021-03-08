@@ -3,11 +3,16 @@
     "module": "commonjs",
     "target": "es6",
     "lib": [ "es6" ],
+    "outDir": "./dist",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true
   },
   "exclude": [
     "node_modules"
+  ],
+  "typeRoots": [
+    "node_modules/@types",
+    "./@types"
   ]
 }

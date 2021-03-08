@@ -37,6 +37,7 @@
     <None Include="app.ts" />
     <None Include="routes\index.ts" />
     <Content Include="db\makeRPLog.sql" />
+    <Content Include="jest.config.js" />
     <Content Include="package-lock.json" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
@@ -46,10 +47,14 @@
     <Folder Include="db\" />
     <Folder Include="entities\" />
     <Folder Include="logics\" />
+    <Folder Include="tests\" />
     <Folder Include="routes\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="logics\apiFunc.ts">
+    <TypeScriptCompile Include="tests\apiFunction.test.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="logics\apiFunction.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="daily.ts" />

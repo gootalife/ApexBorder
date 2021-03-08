@@ -1,57 +1,23 @@
-import fetch from 'node-fetch';
-import { JSDOM } from 'jsdom';
-import { RPLog } from './entities/rpLog';
-import * as moment from 'moment';
 import DBManager from './db/dbManager';
-require('array-foreach-async');
-
-const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), process.env.SEASON);
-const border = Number(process.env.BORDER);
-const playersPerPage = Number(process.env.PLAYERS_PER_PAGE);
-const platForms: { [key: string]: string } = {
-    'origin': 'origin',
-    'ps': 'psn',
-    'xbox': 'xbl'
-}
-
-async function getRPList(plat: string): Promise<number[]> {
-    let rpList: number[] = [];
-    const lastPage = Math.ceil(border / playersPerPage);
-    for (let page = 1; page <= lastPage; page++) {
-        process.stderr.write(`\r${plat}: ${page}/${lastPage}`);
-        const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${page}`;
-        const res = await fetch(url).catch(err => { throw err });
-        const html = await res.text().catch(err => { throw err });
-        const dom = new JSDOM(html);
-        const document = dom.window.document;
-        const nodes = document.querySelectorAll('td.highlight');
-        const onePage = Array.from(nodes).map((td?: any) => Number(td.textContent.trim().replace(/[^0-9]/g, '')));
-        rpList = rpList.concat(onePage);
-    }
-    // ボーダーまで切り捨て
-    rpList = rpList.slice(0, border);
-    process.stderr.write(` done!\n`);
-    return rpList;
-}
+import RPLog from './entities/rpLog';
+import * as api from './logics/apiFunction';
 
 const main = async () => {
+  try {
     console.log('---Daily process start---');
-    for (const plat of Object.keys(platForms)) {
-        rpLog[plat] = await getRPList(platForms[plat]).catch(err => {
-            console.log(err);
-            return [];
-        });
-        if (rpLog[plat].length !== border) {
-            throw new Error(`rpLog.${plat}.length = ${rpLog[plat].length} is not equals ${border}.`);
-        }
-    }
+    const rpLog = await api.getRPLists().catch(err => { throw err; });
     console.log('DB Update start.');
-    const connection = await DBManager.getConnectedConnection();
+    const connection = await DBManager.getConnectedConnectionAsync();
     const repository = connection.getRepository(RPLog);
     await repository.save(rpLog);
     await connection.close();
     console.log('DB was Updated.');
+  } catch (e) {
+    console.log(e.message);
+  } finally {
+    await DBManager.closeConnectionAsync();
     console.log('---Daily process end---');
+  }
 };
 
-main().catch(err => console.log(err));
+main();
