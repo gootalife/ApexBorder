@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "start": "node dist/app",
+    "start": "node ./dist/app",
     "postinstall": "npm run build",
     "daily": "node ./dist/daily",
     "test": "jest"

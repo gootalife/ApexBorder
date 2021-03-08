@@ -4,6 +4,7 @@ import * as api from './logics/apiFunction';
 
 const daily = async (): Promise<boolean> => {
   let succeed = false;
+  let message = '***Daily process failed***';
   try {
     console.log('---Daily process start---');
     const rpLog = await api.getRPLists();
@@ -13,13 +14,13 @@ const daily = async (): Promise<boolean> => {
     await repository.save(rpLog);
     await connection.close();
     console.log('DB was Updated.');
-    console.log('---Daily process end---');
+    message = '---Daily process succeed---';
     succeed = true;
   } catch (e) {
     console.log(e.message);
   } finally {
     await DBManager.closeConnectionAsync();
-    console.log('---Daily process failed---');
+    console.log(message);
   }
   return succeed;
 };
