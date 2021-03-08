@@ -646,3 +646,5 @@ npm-debug.log
 dist
 
 # End of https://www.toptal.com/developers/gitignore/api/nuxtjs
+
+config.json
