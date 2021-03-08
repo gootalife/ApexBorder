@@ -5,11 +5,11 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
-    "start": "node -r dotenv/config app dotenv_config_path=.env",
+    "start": "node dist/app",
     "postinstall": "npm run build",
-    "daily": "node -r dotenv/config daily dotenv_config_path=.env",
-    "dbTest": "node -r dotenv/config dbTest dotenv_config_path=.env",
-    "test": "jest --setupFiles dotenv/config"
+    "daily": "node dist/logics/daily",
+    "dbTest": "node dist/dbTest",
+    "test": "jest"
   },
   "description": "ApexBorderAPIServer",
   "author": {
@@ -17,7 +17,6 @@
   },
   "main": "app.js",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "express": "^4.14.0",
     "jsdom": "^16.4.0",
     "moment": "^2.29.1",

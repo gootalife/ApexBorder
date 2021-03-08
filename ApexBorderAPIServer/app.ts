@@ -1,7 +1,8 @@
-import * as express from 'express';
-import index from './routes/index';
-import api from './routes/api';
+import express from 'express';
 import 'reflect-metadata';
+import config from './config.json';
+import api from './routes/api';
+import index from './routes/index';
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use('/api', api);
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.env.PORT || 3000);
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + server.address().port);

@@ -1,22 +1,23 @@
 /* eslint no-useless-catch: 0 */
-import { createConnection, Connection } from "typeorm";
-import RPLog from "../entities/rpLog";
+import { Connection, createConnection } from "typeorm";
+import config from '../config.json';
+import { RPLog } from "../entities/rpLog";
 
-export default class DBManager {
+export class DBManager {
   private static connection: Connection;
 
   private static async createConnectionAsync(): Promise<void> {
     this.connection = await createConnection({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      host: config.env.db.HOST,
+      port: config.env.db.PORT,
+      username: config.env.db.USER,
+      password: config.env.db.PASSWORD,
+      database: config.env.db.DATABASE,
       synchronize: false,
       entities: [RPLog],
       logging: false,
-    }).catch(err => { throw err });
+    }).catch(e => { throw e });
   }
 
   public static async getConnectedConnectionAsync(): Promise<Connection> {
@@ -33,7 +34,7 @@ export default class DBManager {
     return this.connection;
   }
 
-  public static async closeConnectionAsync(): Promise<void> {
+  public static async closeConnectionAsync(): Promise<Connection> {
     try {
       if (this.connection !== undefined && this.connection.isConnected === true) {
         await this.connection.close();
@@ -41,5 +42,6 @@ export default class DBManager {
     } catch (e) {
       throw e;
     }
+    return this.connection;
   }
 }

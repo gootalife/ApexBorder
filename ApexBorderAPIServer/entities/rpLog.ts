@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity('RPLog')
-export default class RPLog {
+export class RPLog {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
