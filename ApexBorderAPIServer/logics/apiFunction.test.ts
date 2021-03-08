@@ -4,7 +4,7 @@ describe('apiFunctionTest', () => {
   test.concurrent('getCurrentBordersAsyncTest', async () => {
     const result = await api.getCurrentBordersAsync();
     expect(Object.keys(result.borders).length).toBe(Object.keys(api.platForms).length);
-  }, 15000);
+  }, 20000);
   test.concurrent('getRPLogsBetweenAsyncTest', async () => {
     const result = await api.getRPLogsBetweenAsync('2021-03-01', '2021-03-31', '8sp1');
     expect(result.length).toBe(7);

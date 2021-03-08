@@ -7,8 +7,7 @@
     "clean": "tsc --build --clean",
     "start": "node dist/app",
     "postinstall": "npm run build",
-    "daily": "node dist/logics/daily",
-    "dbTest": "node dist/dbTest",
+    "daily": "node ./dist/daily",
     "test": "jest"
   },
   "description": "ApexBorderAPIServer",
