@@ -21,7 +21,7 @@ async function dailyAsync(): Promise<boolean> {
   } catch (e) {
     console.log(e.message);
   } finally {
-    connection.close();
+    await connection.close();
     console.log(message);
   }
   return succeed;
