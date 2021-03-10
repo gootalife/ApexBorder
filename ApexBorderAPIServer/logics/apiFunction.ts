@@ -5,7 +5,7 @@ import { Between, Connection } from 'typeorm';
 import config from '../config.json';
 import { DBManager } from '../db/dbManager';
 import { RPLog } from '../entities/rpLog';
-import moment = require('moment');
+import moment from 'moment';
 
 export async function getRPLogsBetweenAsync(beginning: string, ending: string, season: string): Promise<RPLog[]> {
   let rpLogs: RPLog[] = [];
