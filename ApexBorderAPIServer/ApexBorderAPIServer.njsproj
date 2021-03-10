@@ -61,7 +61,7 @@
     <TypeScriptCompile Include="logics\apiFunction.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="logics\daily.ts" />
+    <TypeScriptCompile Include="daily.ts" />
     <TypeScriptCompile Include="db\dbManager.ts" />
     <TypeScriptCompile Include="entities\rpLog.ts" />
     <TypeScriptCompile Include="routes\api.ts" />

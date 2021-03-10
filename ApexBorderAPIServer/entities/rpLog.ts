@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity('RPLog')
+@Entity('rplog')
 export class RPLog {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
