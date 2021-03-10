@@ -9,7 +9,7 @@ router.get('/rplogs', async (req: express.Request, res: express.Response) => {
   try {
     const beginning = req.query.beginning;
     const ending = req.query.ending;
-    const season = config.env.SEASON;
+    const season = config.env.season;
     let rpLogs: RPLog[] = [];
     // 期間の指定があるかどうか
     if (isString(beginning) && isString(ending)) {

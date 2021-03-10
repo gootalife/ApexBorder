@@ -4,44 +4,17 @@ import config from '../config.json';
 import { RPLog } from "../entities/rpLog";
 
 export class DBManager {
-  private static connection: Connection;
-
-  private static async createConnectionAsync(): Promise<void> {
-    this.connection = await createConnection({
+  public static async getConnectionAsync(): Promise<Connection> {
+    return await createConnection({
       type: 'postgres',
-      host: config.env.db.HOST,
-      port: config.env.db.PORT,
-      username: config.env.db.USER,
-      password: config.env.db.PASSWORD,
-      database: config.env.db.DATABASE,
+      host: config.env.db.host,
+      port: config.env.db.port,
+      username: config.env.db.user,
+      password: config.env.db.password,
+      database: config.env.db.database,
       synchronize: false,
       entities: [RPLog],
       logging: false,
     }).catch(e => { throw e });
-  }
-
-  public static async getConnectedConnectionAsync(): Promise<Connection> {
-    try {
-      if (this.connection === undefined) {
-        await this.createConnectionAsync();
-      }
-      if (this.connection.isConnected === false) {
-        await this.connection.connect();
-      }
-    } catch (e) {
-      throw e;
-    }
-    return this.connection;
-  }
-
-  public static async closeConnectionAsync(): Promise<Connection> {
-    try {
-      if (this.connection !== undefined && this.connection.isConnected === true) {
-        await this.connection.close();
-      }
-    } catch (e) {
-      throw e;
-    }
-    return this.connection;
   }
 }

@@ -1,22 +1,17 @@
 /* eslint no-useless-catch: 0 */
 import { JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
-import { Between } from 'typeorm';
+import { Between, Connection } from 'typeorm';
 import config from '../config.json';
 import { DBManager } from '../db/dbManager';
 import { RPLog } from '../entities/rpLog';
 import moment = require('moment');
 
-export const platForms: { [key: string]: string } = {
-  'origin': 'origin',
-  'ps': 'psn',
-  'xbox': 'xbl'
-}
-
 export async function getRPLogsBetweenAsync(beginning: string, ending: string, season: string): Promise<RPLog[]> {
   let rpLogs: RPLog[] = [];
+  let connection: Connection;
   try {
-    const connection = await DBManager.getConnectedConnectionAsync();
+    connection = await DBManager.getConnectionAsync();
     const repository = connection.getRepository(RPLog);
     // 期間内の記録を取得
     rpLogs = await repository.find({
@@ -31,15 +26,16 @@ export async function getRPLogsBetweenAsync(beginning: string, ending: string, s
   } catch (e) {
     throw e;
   } finally {
-    await DBManager.closeConnectionAsync();
+    await connection.close();
   }
   return rpLogs;
 }
 
 export async function getRPLogsOnSeasonAsync(season: string): Promise<RPLog[]> {
   let rpLogs: RPLog[] = [];
+  let connection: Connection;
   try {
-    const connection = await DBManager.getConnectedConnectionAsync();
+    connection = await DBManager.getConnectionAsync();
     const repository = connection.getRepository(RPLog);
     // シーズン内の記録を取得
     rpLogs = await repository.find({
@@ -50,7 +46,7 @@ export async function getRPLogsOnSeasonAsync(season: string): Promise<RPLog[]> {
   } catch (e) {
     throw e;
   } finally {
-    await DBManager.closeConnectionAsync();
+    await connection.close();
   }
   return rpLogs;
 }
@@ -58,11 +54,11 @@ export async function getRPLogsOnSeasonAsync(season: string): Promise<RPLog[]> {
 async function getCurrentBorderAsync(plat: string): Promise<number> {
   let borderRp = -1;
   try {
-    const border = config.env.BORDER;
-    const playersPerPage = config.env.PLAYERS_PER_PAGE;
+    const border = config.env.border;
+    const playersPerPage = config.env.playersPerPage;
     const targetPage = Math.ceil(border / playersPerPage);
     const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${targetPage}`;
-    const res = await fetch(url);
+    const res = await fetch(url, { timeout: 10000, follow: 5 });
     const html = await res.text();
     const dom = new JSDOM(html);
     const document = dom.window.document;
@@ -84,9 +80,9 @@ export async function getCurrentBordersAsync(): Promise<{
   borders: { [key: string]: number };
 }> {
   const borders: { [key: string]: number } = {}
-  for (const plat of Object.keys(platForms)) {
+  for (const plat of Object.keys(config.platforms)) {
     try {
-      borders[plat] = await getCurrentBorderAsync(platForms[plat]);
+      borders[plat] = await getCurrentBorderAsync(config.platforms[plat]);
       process.stderr.write(`${plat}: done!\n`);
     } catch (e) {
       throw e;
@@ -102,17 +98,17 @@ export async function getCurrentBordersAsync(): Promise<{
   return currentBorders;
 }
 
-async function getRPList(plat: string): Promise<number[]> {
-  const border = config.env.BORDER;
-  const playersPerPage = config.env.PLAYERS_PER_PAGE;
+async function getCurrentRPRankingAsync(plat: string): Promise<number[]> {
+  const border = config.env.border;
+  const playersPerPage = config.env.playersPerPage;
   let rpList: number[] = [];
   try {
     const lastPage = Math.ceil(border / playersPerPage);
     for (let page = 1; page <= lastPage; page++) {
       process.stderr.write(`\r${plat}: ${page}/${lastPage} ${rpList.length}/${border}`);
       const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${page}`;
-      const res = await fetch(url).catch(e => { throw e });
-      const html = await res.text().catch(e => { throw e });
+      const res = await fetch(url, { timeout: 10000, follow: 5 });
+      const html = await res.text();
       const dom = new JSDOM(html);
       const document = dom.window.document;
       const nodes = document.querySelectorAll('td.highlight');
@@ -131,11 +127,11 @@ async function getRPList(plat: string): Promise<number[]> {
   return rpList;
 }
 
-export async function getRPLists(): Promise<RPLog> {
-  const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), config.env.SEASON);
-  for (const plat of Object.keys(platForms)) {
+export async function getCurrentRPRankingsAsync(): Promise<RPLog> {
+  const rpLog = new RPLog(moment().format("YYYY-MM-DD HH:mm:ss"), config.env.season);
+  for (const plat of Object.keys(config.platforms)) {
     try {
-      rpLog[plat] = await getRPList(platForms[plat]);
+      rpLog[plat] = await getCurrentRPRankingAsync(config.platforms[plat]);
     } catch (e) {
       throw e;
     }

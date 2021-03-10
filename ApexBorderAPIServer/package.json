@@ -8,7 +8,8 @@
     "start": "node ./dist/app",
     "postinstall": "npm run build",
     "daily": "node ./dist/daily",
-    "test": "jest"
+    "test": "jest",
+    "test:db": "jest dbManager.test.ts"
   },
   "description": "ApexBorderAPIServer",
   "author": {

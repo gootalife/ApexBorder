@@ -13,7 +13,7 @@ app.use('/api', api);
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.set('port', config.env.PORT || 3000);
+app.set('port', config.env.port || 3000);
 
 const server = app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + server.address().port);
