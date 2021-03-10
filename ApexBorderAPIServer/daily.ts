@@ -13,7 +13,7 @@ async function dailyAsync(): Promise<boolean> {
     console.log('DB Update start.');
     connection = await DBManager.getConnectionAsync();
     const repository = connection.getRepository(RPLog);
-    await repository.save(rpLog);
+    await repository.insert(rpLog);
     await connection.close();
     console.log('DB was Updated.');
     message = '---Daily process succeed---';

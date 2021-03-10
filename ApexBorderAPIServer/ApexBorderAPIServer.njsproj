@@ -55,6 +55,9 @@
     <TypeScriptCompile Include="db\dbManager.test.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="editData.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="logics\apiFunction.test.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

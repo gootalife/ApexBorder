@@ -7,7 +7,7 @@ import config from '../config.json';
 import { DBManager } from '../db/dbManager';
 import { RPLog } from '../entities/rpLog';
 
-export async function getRPLogsBetweenAsync(beginning: string, ending: string, season: string): Promise<RPLog[]> {
+export async function getRPLogsBetweenAsync(beginning: string, ending: string): Promise<RPLog[]> {
   let rpLogs: RPLog[] = [];
   let connection: Connection;
   try {
@@ -16,7 +16,6 @@ export async function getRPLogsBetweenAsync(beginning: string, ending: string, s
     // 期間内の記録を取得
     rpLogs = await repository.find({
       where: {
-        season: season,
         date: Between(beginning + ' 00:00:00', ending + ' 23:59:59'),
       },
       order: {

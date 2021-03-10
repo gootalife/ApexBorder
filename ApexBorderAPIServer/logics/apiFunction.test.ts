@@ -7,7 +7,7 @@ describe('apiFunctionTest', () => {
     expect(Object.keys(result.borders).length).toBe(Object.keys(config.platforms).length);
   }, 20000);
   test('getRPLogsBetweenAsyncTest', async () => {
-    const result = await api.getRPLogsBetweenAsync('2021-03-01', '2021-03-05', '8sp1');
+    const result = await api.getRPLogsBetweenAsync('2021-03-01', '2021-03-05');
     expect(result.length).toBe(5);
   }, 20000);
   test('getRPLogsOnSeasonAsyncTest', async () => {

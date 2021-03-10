@@ -13,7 +13,7 @@ router.get('/rplogs', async (req: express.Request, res: express.Response) => {
     let rpLogs: RPLog[] = [];
     // 期間の指定があるかどうか
     if (isString(beginning) && isString(ending)) {
-      rpLogs = await api.getRPLogsBetweenAsync(beginning, ending, season);
+      rpLogs = await api.getRPLogsBetweenAsync(beginning, ending);
     } else {
       rpLogs = await api.getRPLogsOnSeasonAsync(season);
     }
