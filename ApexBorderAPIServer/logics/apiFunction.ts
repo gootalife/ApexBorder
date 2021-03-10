@@ -57,7 +57,7 @@ async function getCurrentBorderAsync(plat: string): Promise<number> {
     const playersPerPage = config.env.playersPerPage;
     const targetPage = Math.ceil(border / playersPerPage);
     const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${targetPage}`;
-    const res = await fetch(url, { timeout: 10000, follow: 5 });
+    const res = await fetch(url, { timeout: 10000, follow: 10 });
     const html = await res.text();
     const dom = new JSDOM(html);
     const document = dom.window.document;
@@ -106,7 +106,7 @@ async function getCurrentRPRankingAsync(plat: string): Promise<number[]> {
     for (let page = 1; page <= lastPage; page++) {
       process.stderr.write(`\r${plat}: ${page}/${lastPage} ${rpList.length}/${border}`);
       const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${page}`;
-      const res = await fetch(url, { timeout: 10000, follow: 5 });
+      const res = await fetch(url, { timeout: 20000, follow: 10 });
       const html = await res.text();
       const dom = new JSDOM(html);
       const document = dom.window.document;
