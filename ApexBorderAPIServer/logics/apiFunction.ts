@@ -1,11 +1,10 @@
 /* eslint no-useless-catch: 0 */
-import { JSDOM } from 'jsdom';
 import moment from 'moment';
-import fetch from 'node-fetch';
 import { Between, Connection } from 'typeorm';
 import config from '../config.json';
 import { DBManager } from '../db/dbManager';
 import { RPLog } from '../entities/rpLog';
+const puppeteer = require('puppeteer');
 
 export async function getRPLogsBetweenAsync(beginning: string, ending: string): Promise<RPLog[]> {
   let rpLogs: RPLog[] = [];
@@ -52,24 +51,40 @@ export async function getRPLogsOnSeasonAsync(season: string): Promise<RPLog[]> {
 
 async function getCurrentBorderAsync(plat: string): Promise<number> {
   let borderRp = -1;
+  let browser;
+  let window;
   try {
     const border = config.env.border;
     const playersPerPage = config.env.playersPerPage;
     const targetPage = Math.ceil(border / playersPerPage);
     const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${targetPage}`;
-    const res = await fetch(url, { timeout: 10000, follow: 10 });
-    const html = await res.text();
-    const dom = new JSDOM(html);
-    const document = dom.window.document;
-    const nodes = document.querySelectorAll('td.highlight');
-    const rpList = Array.from(nodes).map((td?: any) => Number(td.textContent.trim().replace(/[^0-9]/g, '')));
-    if (rpList.length === playersPerPage) {
-      borderRp = rpList[49];
+    browser = await puppeteer.launch();
+    const window = await browser.newPage();
+    await window.goto(url, {
+      timeout: 0
+    });
+    await window.waitForSelector('td.stat.highlight');
+    const ranking = await window.evaluate(() => {
+      const result: string[] = [];
+      document.querySelectorAll('td.stat.highlight').forEach(elem => {
+        result.push(elem.textContent.trim().replace(',', ''));
+      });
+      return result;
+    });
+    if (ranking.length === playersPerPage) {
+      borderRp = ranking[49];
     } else {
-      throw new Error(`rpList.length = ${rpList.length} is not equals ${playersPerPage}.`);
+      throw new Error(`rpList.length = ${ranking.length} is not equals ${playersPerPage}.`);
     }
   } catch (e) {
     throw e;
+  } finally {
+    if (window) {
+      await window.close();
+    }
+    if (browser) {
+      await browser.close();
+    }
   }
   return borderRp;
 }
@@ -100,30 +115,46 @@ export async function getCurrentBordersAsync(): Promise<{
 async function getCurrentRPRankingAsync(plat: string): Promise<number[]> {
   const border = config.env.border;
   const playersPerPage = config.env.playersPerPage;
-  let rpList: number[] = [];
+  let rpRanking: number[] = [];
+  let browser;
+  let window;
   try {
     const lastPage = Math.ceil(border / playersPerPage);
+    browser = await puppeteer.launch();
+    window = await browser.newPage();
     for (let page = 1; page <= lastPage; page++) {
-      process.stderr.write(`\r${plat}: ${page}/${lastPage} ${rpList.length}/${border}`);
+      process.stderr.write(`\r${plat}: ${page}/${lastPage} ${rpRanking.length}/${border}`);
       const url = `https://tracker.gg/apex/leaderboards/stats/${plat}/RankScore?page=${page}`;
-      const res = await fetch(url, { timeout: 20000, follow: 10 });
-      const html = await res.text();
-      const dom = new JSDOM(html);
-      const document = dom.window.document;
-      const nodes = document.querySelectorAll('td.highlight');
-      const onePage = Array.from(nodes).map((td?: any) => Number(td.textContent.trim().replace(/[^0-9]/g, '')));
-      rpList = rpList.concat(onePage);
+      await window.goto(url, {
+        timeout: 0
+      });
+      await window.waitForSelector('td.stat.highlight');
+      const ranking = await window.evaluate(() => {
+        const result: string[] = [];
+        document.querySelectorAll('td.stat.highlight').forEach(elem => {
+          result.push(elem.textContent.trim().replace(',', ''));
+        });
+        return result;
+      });
+      rpRanking = rpRanking.concat(ranking);
     }
     // ボーダーまで切り捨て
-    rpList = rpList.slice(0, border);
-    if (rpList.length !== border) {
-      throw new Error(`rpList.${plat}.length = ${rpList.length} is not equals ${border}.`);
+    rpRanking = rpRanking.slice(0, border);
+    if (rpRanking.length !== border) {
+      throw new Error(`rpList.${plat}.length = ${rpRanking.length} is not equals ${border}.`);
     }
-    process.stderr.write(`\r${plat}: ${lastPage}/${lastPage} ${rpList.length}/${border} done!\n`);
+    process.stderr.write(`\r${plat}: ${lastPage}/${lastPage} ${rpRanking.length}/${border} done!\n`);
   } catch (e) {
     throw e;
+  } finally {
+    if (window) {
+      await window.close();
+    }
+    if (browser) {
+      await browser.close();
+    }
   }
-  return rpList;
+  return rpRanking;
 }
 
 export async function getCurrentRPRankingsAsync(): Promise<RPLog> {

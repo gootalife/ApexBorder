@@ -20,5 +20,5 @@ describe('apiFunctionTest', () => {
     expect(result.origin.length).toBe(config.env.border);
     expect(result.ps.length).toBe(config.env.border);
     expect(result.xbox.length).toBe(config.env.border);
-  }, 120000);
+  }, 180000);
 });

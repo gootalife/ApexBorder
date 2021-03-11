@@ -55,9 +55,6 @@
     <TypeScriptCompile Include="db\dbManager.test.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="editData.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="logics\apiFunction.test.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -68,6 +65,9 @@
     <TypeScriptCompile Include="db\dbManager.ts" />
     <TypeScriptCompile Include="entities\rpLog.ts" />
     <TypeScriptCompile Include="routes\api.ts" />
+    <TypeScriptCompile Include="sample.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

@@ -2,7 +2,7 @@ import { Connection } from 'typeorm';
 import { DBManager } from './dbManager';
 
 describe('dbManagerTest', () => {
-  test('getConnectedConnectionAsyncTest', async () => {
+  test.skip('getConnectedConnectionAsyncTest', async () => {
     let connection: Connection;
     try {
       connection = await DBManager.getConnectionAsync();
