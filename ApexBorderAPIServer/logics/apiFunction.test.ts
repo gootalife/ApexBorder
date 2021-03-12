@@ -2,9 +2,9 @@ import * as api from './apiFunction';
 import config from '../config.json';
 
 describe('apiFunctionTest', () => {
-  test.skip('getCurrentBordersAsyncTest', async () => {
+  test('getCurrentBordersAsyncTest', async () => {
     const result = await api.getCurrentBordersAsync();
-    expect(Object.keys(result.borders).length).toBe(Object.keys(config.platforms).length);
+    expect(Object.keys(result).length).toBe(Object.keys(config.platforms).length);
   }, 20000);
   test.skip('getRPLogsBetweenAsyncTest', async () => {
     const result = await api.getRPLogsBetweenAsync('2021-03-01', '2021-03-05');
