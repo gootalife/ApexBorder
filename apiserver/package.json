@@ -1,5 +1,5 @@
 {
-  "name": "apexborderapiserver",
+  "name": "apiserver",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,10 @@
     "postinstall": "npm run build",
     "daily": "node ./dist/daily",
     "test": "jest",
-    "test:db": "jest dbManager.test.ts"
+    "test:db": "jest dbManager.test.ts",
+    "test:api": "jest apiFunction.test.ts"
   },
-  "description": "ApexBorderAPIServer",
+  "description": "apiserver",
   "author": {
     "name": ""
   },
