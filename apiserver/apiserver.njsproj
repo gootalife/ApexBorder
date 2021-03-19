@@ -19,7 +19,7 @@
     <ProjectGuid>eeb5841f-624d-42f8-884f-79f3bc9ede91</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>app.js</StartupFile>
+    <StartupFile>dist/updateBorders.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -55,7 +55,16 @@
     <Folder Include="routes\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="db\dbFunction.test.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="db\dbFunction.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="db\dbManager.test.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="entities\border.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="logics\apiFunction.test.ts">
@@ -68,6 +77,9 @@
     <TypeScriptCompile Include="db\dbManager.ts" />
     <TypeScriptCompile Include="entities\rpLog.ts" />
     <TypeScriptCompile Include="routes\api.ts" />
+    <TypeScriptCompile Include="updateBorders.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
