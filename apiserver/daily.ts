@@ -22,10 +22,10 @@ async function dailyAsync(): Promise<boolean> {
   return succeed;
 };
 
-console.log(`--- Daily process (${moment().format('YYYY-MM-DD HH:mm:ss')}) start ---`);
+console.log(`--- Daily process start (${moment().format('YYYY-MM-DD HH:mm:ss')}) ---`);
 dailyAsync()
-  .then(() => console.log('--- Daily process succeed ---'))
+  .then(() => console.log(`--- Daily process succeed (${moment().format('YYYY - MM - DD HH: mm: ss')}) ---`))
   .catch(e => {
-    console.log('*** Daily process failed ***');
+    console.log(`*** Daily process failed (${moment().format('YYYY - MM - DD HH: mm: ss')}) ***`);
     console.log(e);
   });

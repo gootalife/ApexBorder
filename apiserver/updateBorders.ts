@@ -22,10 +22,10 @@ async function updateBordersAsync(): Promise<boolean> {
   return succeed;
 };
 
-console.log(`--- Update borders (${moment().format('YYYY-MM-DD HH:mm:ss')}) start ---`);
+console.log(`--- Update borders start (${moment().format('YYYY-MM-DD HH:mm:ss')}) ---`);
 updateBordersAsync()
-  .then(() => console.log('--- Update borders succeed ---'))
+  .then(() => console.log(`--- Update borders succeed (${moment().format('YYYY-MM-DD HH:mm:ss')}) ---`))
   .catch(e => {
-    console.log('*** Update borders failed ***');
+    console.log(`*** Update borders failed (${moment().format('YYYY-MM-DD HH:mm:ss')}) ***`);
     console.log(e);
   });
