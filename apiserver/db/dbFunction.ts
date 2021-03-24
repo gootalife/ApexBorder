@@ -7,7 +7,7 @@ import config from '../config.json';
 import { Border } from '../entities/border';
 import { RPLog } from '../entities/rpLog';
 
-async function fetchCurrentBorderAsync(plat: string): Promise<number> {
+async function fetchBorderAsync(plat: string): Promise<number> {
   let borderRp = -1;
   let browser;
   let window;
@@ -48,12 +48,12 @@ async function fetchCurrentBorderAsync(plat: string): Promise<number> {
   return borderRp;
 }
 
-export async function fetchCurrentBordersAsync(): Promise<Border[]> {
+export async function fetchBordersAsync(): Promise<Border[]> {
   const borders: Border[] = [];
   const promises: Promise<number>[] = [];
   try {
     for (const plat of Object.keys(config.platforms)) {
-      promises.push(fetchCurrentBorderAsync(config.platforms[plat]));
+      promises.push(fetchBorderAsync(config.platforms[plat]));
     }
     const res = await Promise.all(promises);
     for (const [index, plat] of Object.keys(config.platforms).entries()) {

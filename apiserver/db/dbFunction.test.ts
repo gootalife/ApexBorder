@@ -3,7 +3,7 @@ import config from '../config.json';
 
 describe('dbFunctionTest', () => {
   test('fetchCurrentBordersAsyncTest', async () => {
-    const result = await db.fetchCurrentBordersAsync();
+    const result = await db.fetchBordersAsync();
     expect(result.length).toBe(Object.keys(config.platforms).length);
   });
   test.skip('fetchCurrentRPRankingsAsyncTest', async () => {

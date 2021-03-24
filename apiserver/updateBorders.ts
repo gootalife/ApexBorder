@@ -9,7 +9,7 @@ async function updateBordersAsync(): Promise<boolean> {
   let succeed = false;
   let connection: Connection;
   try {
-    const borders = await db.fetchCurrentBordersAsync();
+    const borders = await db.fetchBordersAsync();
     connection = await DBManager.getConnectionAsync();
     const repository = connection.getRepository(Border);
     await repository.save(borders);
