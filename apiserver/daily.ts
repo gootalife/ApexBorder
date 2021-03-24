@@ -26,6 +26,6 @@ console.log(`--- Daily process start (${moment().format('YYYY-MM-DD HH:mm:ss')})
 dailyAsync()
   .then(() => console.log(`--- Daily process succeed (${moment().format('YYYY - MM - DD HH: mm: ss')}) ---`))
   .catch(e => {
-    console.log(`*** Daily process failed (${moment().format('YYYY - MM - DD HH: mm: ss')}) ***`);
+    console.log(`*** Daily process failed (${moment().format('YYYY-MM-DD HH:mm:ss')}) ***`);
     console.log(e);
   });
