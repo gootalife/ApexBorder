@@ -53,6 +53,7 @@
     <Folder Include="entities\" />
     <Folder Include="logics\" />
     <Folder Include="routes\" />
+    <Folder Include="routes\v1\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="db\dbFunction.test.ts">
@@ -76,7 +77,7 @@
     <TypeScriptCompile Include="daily.ts" />
     <TypeScriptCompile Include="db\dbManager.ts" />
     <TypeScriptCompile Include="entities\rpLog.ts" />
-    <TypeScriptCompile Include="routes\api.ts" />
+    <TypeScriptCompile Include="routes\v1\api.ts" />
     <TypeScriptCompile Include="updateBorders.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

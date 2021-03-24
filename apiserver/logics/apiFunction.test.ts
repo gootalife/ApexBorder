@@ -2,8 +2,8 @@ import * as api from './apiFunction';
 import config from '../config.json';
 
 describe('apiFunctionTest', () => {
-  test('fetchCurrentBordersAsyncTest', async () => {
-    const result = await api.getCurrentBordersAsync();
+  test('fetchBordersAsyncTest', async () => {
+    const result = await api.getBordersAsync();
     expect(result.length).toBe(Object.keys(config.platforms).length);
   }, 20000);
   test.skip('getRPLogsBetweenAsyncTest', async () => {

@@ -27,7 +27,9 @@ export async function getRPLogsBetweenAsync(beginning: string, ending: string): 
   } catch (e) {
     throw e;
   } finally {
-    await connection.close();
+    if (connection) {
+      await connection.close();
+    }
   }
   return rpLogs;
 }
@@ -47,12 +49,14 @@ export async function getRPLogsOnSeasonAsync(season: string): Promise<RPLog[]> {
   } catch (e) {
     throw e;
   } finally {
-    await connection.close();
+    if (connection) {
+      await connection.close();
+    }
   }
   return rpLogs;
 }
 
-export async function getCurrentBordersAsync(): Promise<Border[]> {
+export async function getBordersAsync(): Promise<Border[]> {
   let borders: Border[] = [];
   let connection: Connection;
   try {
@@ -67,7 +71,9 @@ export async function getCurrentBordersAsync(): Promise<Border[]> {
   } catch (e) {
     throw e;
   } finally {
-    await connection.close();
+    if (connection) {
+      await connection.close();
+    }
   }
   return borders;
 }
