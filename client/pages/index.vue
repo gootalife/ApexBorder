@@ -9,7 +9,7 @@
               {{ plat }}
             </v-btn>
           </v-btn-toggle>
-          <v-btn class="ml-10" value="all" @click="fetchData">
+          <v-btn value="all" @click="fetchData">
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
           <v-overlay :value="overlay">
@@ -23,6 +23,8 @@
         <border-table class="border-table" :border-data="bordersData">
         </border-table>
       </v-col>
+    </v-row>
+    <v-row justify="center" align="start">
       <v-col>
         <line-chart
           class="chart"
@@ -66,6 +68,12 @@ export default class Index extends Vue {
   private rpLogs: rpLog.RPLog[] = [];
   private borders: border.Border[] = [];
   private overlay: boolean = false;
+
+  head() {
+    return {
+      title: 'Home'
+    };
+  }
 
   async mounted(): Promise<void> {
     this.overlay = true;
@@ -174,8 +182,9 @@ export default class Index extends Vue {
   text-align: center !important;
 }
 .chart {
-  height: 300px !important;
-  width: 600px !important;
+  height: 400px !important;
+  /* width: 600px !important; */
+  max-width: 600px !important;
   margin-right: auto !important;
   margin-left: auto !important;
 }
