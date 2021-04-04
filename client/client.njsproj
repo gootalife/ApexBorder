@@ -37,9 +37,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include=".babelrc" />
     <Content Include=".eslintrc.js" />
+    <Content Include=".prettierrc" />
     <Content Include="assets\README.md" />
     <Content Include="assets\variables.scss" />
+    <Content Include="components\lineChart.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="components\README.md" />
     <Content Include="jest.config.js" />
     <Content Include="layouts\default.vue" />
@@ -64,9 +69,18 @@
     <Folder Include="assets\" />
     <Folder Include="components\" />
     <Folder Include="layouts\" />
+    <Folder Include="jsonFormat\" />
     <Folder Include="pages\" />
     <Folder Include="static\" />
     <Folder Include="test\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="jsonFormat\borderFormat.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="jsonFormat\rpLogFormat.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
