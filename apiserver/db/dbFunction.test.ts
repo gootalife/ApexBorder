@@ -12,5 +12,5 @@ describe('dbFunctionTest', () => {
     expect(result.origin.length).toBe(config.env.border);
     expect(result.ps.length).toBe(config.env.border);
     expect(result.xbox.length).toBe(config.env.border);
-  }, 60000);
+  }, 100000);
 });

@@ -80,7 +80,7 @@ async function fetchRPRankingAsync(plat: string): Promise<number[]> {
       process.stderr.write(`\r${plat}: ${pageNum}/${count} ${rpRanking.length}/${border}`);
       const url = `https://apex.tracker.gg/legacy/leaderboards/${plat}/RankScore?page=${pageNum}`;
       await window.goto(url, {
-        timeout: 60000
+        timeout: 100000
       });
       await window.waitForSelector('td.trn-lb-entry__stat.trn-text--right');
       const ranking: number[] = await window.evaluate(() => {
