@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row justify="center" align="start">
+    <v-row justify="center" align="center">
       <v-col>
         <div class="center">
           <v-btn-toggle v-model="selectedPlatform" group mandatory>
@@ -9,6 +9,12 @@
               {{ plat }}
             </v-btn>
           </v-btn-toggle>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row justify="center" align="center">
+      <v-col class="py-1">
+        <div class="center">
           <v-btn value="all" @click="fetchData">
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
@@ -63,7 +69,20 @@ export default class Index extends Vue {
       }
     },
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            autoSkip: false
+          }
+        }
+      ]
+    },
+    animation: {
+      duration: 0
+    },
+    responsiveAnimationDuration: 0
   };
   private rpLogs: rpLog.RPLog[] = [];
   private borders: border.Border[] = [];
@@ -99,7 +118,8 @@ export default class Index extends Vue {
       datasets.push({
         label: plat,
         data: this.rpLogs.map((log) => log[plat][config.env.border - 1]),
-        fill: false
+        fill: false,
+        lineTension: 0
       });
     });
     if (selected !== 'all') {
@@ -108,7 +128,7 @@ export default class Index extends Vue {
       });
     }
     this.chartData = {
-      labels: this.rpLogs.map((elem) => elem.date.slice(0, 10)),
+      labels: this.rpLogs.map((elem) => elem.date.slice(5, 10)),
       datasets: datasets
     };
   }
@@ -189,7 +209,7 @@ export default class Index extends Vue {
   margin-left: auto !important;
 }
 .border-table {
-  width: 200px !important;
+  width: 400px !important;
   margin-right: auto !important;
   margin-left: auto !important;
 }

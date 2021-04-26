@@ -12,6 +12,7 @@
         <tr v-for="(item, key) in borderData" :key="key">
           <td>{{ item.platform }}</td>
           <td>{{ item.rp }}</td>
+          <td>{{ item.date.slice(5, item.date.length) }}</td>
         </tr>
       </tbody>
     </template>
@@ -27,7 +28,7 @@ import config from '../../apiserver/config.json';
 export default class Index extends Vue {
   @Prop({ default: [] })
   private borderData!: border.Border[];
-  private headers = ['Platfrom', 'BorderRP'];
+  private headers = ['Platfrom', 'BorderRP', 'UpdateAt'];
   private platforms = Object.keys(config.platforms);
 }
 </script>
