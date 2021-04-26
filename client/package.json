@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "apexborder",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,8 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "test": "jest",
-    "serve:dev": "serve ./dist"
+    "serve:dev": "serve ./dist",
+    "postinstall": "npm run generate"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
