@@ -1,8 +1,8 @@
 /* eslint no-useless-catch: 0 */
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection } from 'typeorm';
 import config from '../config.json';
-import { RPLog } from "../entities/rpLog";
-import { Border } from "../entities/border";
+import { RPLog } from '../entities/rpLog';
+import { Border } from '../entities/border';
 
 export class DBManager {
   public static async getConnectionAsync(): Promise<Connection> {
@@ -15,7 +15,9 @@ export class DBManager {
       database: config.env.db.database,
       synchronize: false,
       entities: [RPLog, Border],
-      logging: false,
-    }).catch(e => { throw e });
+      logging: false
+    }).catch((e) => {
+      throw e;
+    });
   }
 }

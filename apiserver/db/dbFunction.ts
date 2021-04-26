@@ -66,7 +66,7 @@ export async function fetchBordersAsync(): Promise<Border[]> {
   return borders;
 }
 
-async function fetchCurrentRPRankingAsync(plat: string): Promise<number[]> {
+async function fetchRPRankingAsync(plat: string): Promise<number[]> {
   const border = config.env.border;
   const playersPerPage = config.env.playersPerPage;
   let rpRanking: number[] = [];
@@ -112,13 +112,18 @@ async function fetchCurrentRPRankingAsync(plat: string): Promise<number[]> {
   return rpRanking;
 }
 
-export async function fetchCurrentRPRankingsAsync(): Promise<RPLog> {
-  axiosRetry(axios, { retries: 10, retryDelay: () => { return 1000; } });
+export async function fetchRPRankingsAsync(): Promise<RPLog> {
+  axiosRetry(axios, {
+    retries: 10,
+    retryDelay: () => {
+      return 1000;
+    }
+  });
   const rpLog = new RPLog(moment().format('YYYY-MM-DD HH:mm:ss'), config.env.season);
   const promises: Promise<number[]>[] = [];
   try {
     for (const plat of Object.keys(config.platforms)) {
-      promises.push(fetchCurrentRPRankingAsync(config.platforms[plat]));
+      promises.push(fetchRPRankingAsync(config.platforms[plat]));
     }
     const results = await Promise.all(promises);
     for (const [index, plat] of Object.keys(config.platforms).entries()) {

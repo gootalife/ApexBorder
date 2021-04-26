@@ -14,8 +14,10 @@ describe('dbManagerTest', () => {
     } catch (e) {
       console.log(e.message);
     } finally {
-      await connection.close();
-      expect(connection.isConnected).toBe(false);
+      if (connection) {
+        await connection.close();
+        expect(connection.isConnected).toBe(false);
+      }
     }
   });
 });
