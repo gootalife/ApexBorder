@@ -6,9 +6,8 @@
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "start": "node ./dist/app",
-    "postinstall": "npm run build",
     "daily": "node ./dist/daily",
-    "ud:borders": "node ./dist/updateBorders",
+    "borders": "node ./dist/updateBorders",
     "test": "jest",
     "test:db": "jest dbManager.test.ts",
     "test:api": "jest apiFunction.test.ts"

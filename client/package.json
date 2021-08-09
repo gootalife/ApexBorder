@@ -11,7 +11,6 @@
     "lint": "npm run lint:js",
     "test": "jest",
     "serve:dev": "serve ./dist",
-    "postinstall": "npm run generate"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
