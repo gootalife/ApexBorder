@@ -10,7 +10,7 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "test": "jest",
-    "serve:dev": "serve ./dist",
+    "serve:dev": "serve ./dist"
   },
   "lint-staged": {
     "*.{js,vue}": "eslint"
